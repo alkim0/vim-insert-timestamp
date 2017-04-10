@@ -48,5 +48,5 @@ it to). To get out of insert timestamp mode, either press ``<C-l>`` again or
 ``<Esc>``.
 
 vim-insert-timestamp outputs the timestamp in a format similar to Emacs's
-(org-mode)[http://orgmode.org/]. It can output both individual timestamps and
+[org-mode](http://orgmode.org/). It can output both individual timestamps and
 timestamp ranges.
