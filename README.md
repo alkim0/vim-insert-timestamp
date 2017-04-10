@@ -39,6 +39,11 @@ The ``g:insert_timestamp_complete_key`` variable controls which key combination
 you want to use to complete to the current previewd timestamp. By default, this
 is ``<Tab>``.
 
+Note for vimwiki, ``<Tab>`` is already used to jump from table cell to table
+cell, so you may need to remap your completion key. I use:
+    
+    let g:insert_timestamp_complete_key = "'"
+
 ## Usage
 After you have enabled vim-insert-timestamp. Go into insert mode, and press
 ``<C-l>`` (or whatever you configured to). A preview window will pop up, and as
