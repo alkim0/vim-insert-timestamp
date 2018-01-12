@@ -2,6 +2,8 @@ import datetime
 
 import parsedatetime
 
+import tzlocal
+
 cal = parsedatetime.Calendar()
 
 
@@ -131,3 +133,6 @@ def _parse(s):
                      DT(datetime.date(*end[:3]), datetime.time(*end[3:5])))
 
     return dt
+
+def get_local_tz():
+    return tzlocal.get_localzone().zone

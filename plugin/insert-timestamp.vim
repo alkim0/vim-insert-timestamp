@@ -16,6 +16,10 @@ if !exists('g:insert_timestamp_complete_key')
   let g:insert_timestamp_complete_key = '<Tab>'
 endif
 
+if !exists('g:insert_timestamp_enable_timezone')
+  let g:insert_timestamp_enable_timezone = 0
+endif
+
 let s:plugin_root = expand('<sfile>:p:h:h')
 let s:python_root = s:plugin_root . '/python'
 "let s:third_party_root = s:plugin_root . '/third_party/python'
@@ -44,7 +48,12 @@ function! InsertTimestampToggle()
   let s:inserting_timestamp = 1
   let s:start_line = line('.')
   let s:start_col = col('.') ? col('.') - 1 : 0
-  call s:open_preview(py3eval('insert_timestamp.parse("")'))
+  let l:dt = py3eval('insert_timestamp.parse("")')
+  if g:insert_timestamp_enable_timezone
+    let l:tz = py3eval('insert_timestamp.get_local_tz()')
+    let l:dt = l:dt . ' (' . l:tz . ')'
+  endif
+  call s:open_preview(l:dt)
   autocmd insert_timestamp TextChangedI * call InsertTimestampHook()
   autocmd insert_timestamp InsertLeave * call InsertTimestampEnd(0)
   execute 'inoremap ' . g:insert_timestamp_complete_key . ' <C-r>=InsertTimestampEnd(1)<CR>'
@@ -59,6 +68,10 @@ function! InsertTimestampHook()
 
   let l:str = strpart(getline('.'), s:start_col, col('.') - s:start_col)
   let l:dt = py3eval('insert_timestamp.parse(vim.eval("l:str"))')
+  if g:insert_timestamp_enable_timezone
+    let l:tz = py3eval('insert_timestamp.get_local_tz()')
+    let l:dt = l:dt . ' (' . l:tz . ')'
+  endif
   call s:update_preview(l:dt)
 
   return ''
@@ -73,6 +86,10 @@ function! InsertTimestampEnd(success)
   if a:success
     let l:str = strpart(getline('.'), s:start_col, col('.') - s:start_col)
     let l:dt = py3eval('insert_timestamp.parse(vim.eval("l:str"))')
+    if g:insert_timestamp_enable_timezone
+      let l:tz = py3eval('insert_timestamp.get_local_tz()')
+      let l:dt = l:dt . ' (' . l:tz . ')'
+    endif
     call setline(line('.'), strpart(getline('.'), 0, s:start_col) . l:dt)
     call cursor(line('.'), s:start_col + strlen(l:dt) + 1)
   endif

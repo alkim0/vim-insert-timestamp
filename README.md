@@ -16,6 +16,10 @@ installed:
 
     pip3 install parsedatetime
 
+To support timezone printing as well, also install tzlocal:
+
+    pip3 install tzlocal
+
 Then, install vim-insert-timestamp using either
 [pathogen](https://github.com/tpope/vim-pathogen) or
 [vundle](https://github.com/VundleVim/Vundle.vim). For example, for vundle, add
@@ -43,6 +47,11 @@ Note for vimwiki, ``<Tab>`` is already used to jump from table cell to table
 cell, so you may need to remap your completion key. I use:
     
     let g:insert_timestamp_complete_key = "'"
+
+If you want to enable also printing out the current timezone with the
+timestamp, set
+
+    let g:insert_timestamp_enable_timezone = 1
 
 ## Usage
 After you have enabled vim-insert-timestamp. Go into insert mode, and press
